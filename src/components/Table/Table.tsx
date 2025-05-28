@@ -1,3 +1,5 @@
+import { useInView } from "react-intersection-observer";
+import { useEffect } from "react";
 import {
     Table,
     TableBody,
@@ -27,7 +29,21 @@ const headers = [
 ];
 
 export const DataTable = () => {
-    const { interns, isLoading, error } = useInternsContext();
+    const {
+        interns,
+        fetchNextPage,
+        isFetchingNextPage,
+        isLoading,
+        hasNextPage,
+        error,
+    } = useInternsContext();
+    const { ref, inView, entry } = useInView();
+
+    useEffect(() => {
+        if (entry && inView) {
+            fetchNextPage();
+        }
+    }, [entry]);
 
     if (isLoading) return <div>Загрузка...</div>;
     if (error) return <div>Ошибка при загрузке данных</div>;
@@ -79,6 +95,11 @@ export const DataTable = () => {
                             <TableCell>{intern.status ?? "..."}</TableCell>
                         </TableRow>
                     ))}
+                    {isFetchingNextPage ? (
+                        <>Loading...</>
+                    ) : (
+                        hasNextPage && <TableRow ref={ref}></TableRow>
+                    )}
                 </TableBody>
             </Table>
         </>
