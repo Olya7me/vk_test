@@ -22,7 +22,10 @@ import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { postInterns } from "@/api/interns";
 import { toast } from "react-toastify";
 import validators from "@/lib/validators/validators";
-import { transformFormData } from "@/lib/formTransformer/formTransformer";
+import {
+    internTransformers,
+    transformFormData,
+} from "@/lib/formTransformer/formTransformer";
 
 export function AddStudentForm() {
     const queryClient = useQueryClient();
@@ -57,7 +60,7 @@ export function AddStudentForm() {
         {
             name: "phone",
             label: "Телефон",
-            placeholder: "+7 ХХХ ХХХ ХХ ХХ",
+            placeholder: "+7 9** *** ** **",
             rules: validators.phoneValidator,
         },
     ];
@@ -109,19 +112,13 @@ export function AddStudentForm() {
         },
     });
     const handleSubmit = (data: Intern) => {
-        const transformed = transformFormData<Intern>(data, {
-            age: (v) => Number(v),
-            yearOfStudy: (v) => (v ? Number(v) : undefined),
-            expectedSalary: (v) => (v ? Number(v) : undefined),
-            skills: (v) =>
-                typeof v === "string" ? v.split(",").map((s) => s.trim()) : [],
-        });
+        const transformed = transformFormData<Intern>(data, internTransformers);
         mutation.mutate(transformed);
     };
     return (
         <Form {...form}>
             <form
-                className="space-y-4 max-w-xl mx-auto mb-10"
+                className="space-y-4 max-w-xl mx-left mb-10"
                 onSubmit={form.handleSubmit(handleSubmit)}
             >
                 {requiredFields.map((field) => (
@@ -137,7 +134,7 @@ export function AddStudentForm() {
                                 </FormLabel>
                                 <FormControl>
                                     <Input
-                                        placeholder={field.label}
+                                        placeholder={field.placeholder}
                                         {...controllerField}
                                     />
                                 </FormControl>

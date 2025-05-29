@@ -41,8 +41,8 @@ export const emailValidator = {
 export const phoneValidator = {
     required: "Телефон обязателен",
     pattern: {
-        value: /^\+7\s\d{3}\s\d{3}\s\d{2}\s\d{2}$/,
-        message: "Введите номер в формате +7 XXX XXX XX XX",
+        value: /^(\+7|8)?[\s-]?\(?\d{3}\)?[\s-]?\d{3}[\s-]?\d{2}[\s-]?\d{2}$/,
+        message: "Введите номер в формате в формате РФ",
     },
     minLength: {
         value: 10,
