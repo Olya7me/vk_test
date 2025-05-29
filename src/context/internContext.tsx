@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import type { InfiniteData } from "@tanstack/react-query";
 import type { Intern } from "@/types/internTypes";
+import { fetchInterns } from "@/api/interns";
 
 type InternsContextType = {
     interns: Intern[] | undefined;
@@ -31,19 +32,10 @@ export const InternsProvider = ({ children }: { children: ReactNode }) => {
         number
     >({
         queryKey: ["interns"],
-        queryFn: async ({ pageParam = 0 }) => {
-            const res = await fetch(
-                `http://localhost:4000/interns?_start=${
-                    pageParam * 10
-                }&_limit=10`
-            );
-            if (!res.ok)
-                throw new Error(`Ошибка при загрузке данных ${res.status}`);
-            return res.json();
-        },
+        queryFn: ({ pageParam = 0 }) => fetchInterns(pageParam),
         initialPageParam: 0,
         getNextPageParam: (lastPage, pages) => {
-            return lastPage.length === 0 ? undefined : pages.length + 1;
+            return lastPage.length === 0 ? undefined : pages.length;
         },
         refetchOnWindowFocus: false,
     });
@@ -51,7 +43,7 @@ export const InternsProvider = ({ children }: { children: ReactNode }) => {
     return (
         <InternsContext.Provider
             value={{
-                interns: data?.pages.flat() || [],
+                interns: data?.pages.flat() ?? [],
                 fetchNextPage,
                 hasNextPage,
                 isFetchingNextPage,

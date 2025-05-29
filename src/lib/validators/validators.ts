@@ -41,8 +41,8 @@ export const emailValidator = {
 export const phoneValidator = {
     required: "Телефон обязателен",
     pattern: {
-        value: /^(\+7|7|8)?[\s-]?\(?[489][0-9]{2}\)?[\s-]?[0-9]{3}[\s-]?[0-9]{2}[\s-]?[0-9]{2}$/,
-        message: "Введите корректный номер телефона",
+        value: /^\+7\s\d{3}\s\d{3}\s\d{2}\s\d{2}$/,
+        message: "Введите номер в формате +7 XXX XXX XX XX",
     },
     minLength: {
         value: 10,
@@ -126,3 +126,21 @@ export const expectedSalaryValidator = {
         message: "Стажер не может получать такую зарплату",
     },
 };
+
+const validators = {
+    firstNameValidator,
+    lastNameValidator,
+    emailValidator,
+    phoneValidator,
+    ageValidator,
+    universityValidator,
+    facultyValidator,
+    yearOfStudyValidator,
+    skillsValidator,
+    githubValidator,
+    preferredTechStackValidator,
+    availabilityValidator,
+    expectedSalaryValidator,
+};
+
+export default validators;

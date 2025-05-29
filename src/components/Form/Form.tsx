@@ -17,44 +17,129 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
-import type { Intern } from "@/api/dataType";
+import type { Intern } from "@/types/internTypes";
+import { useQueryClient, useMutation } from "@tanstack/react-query";
+import { postInterns } from "@/api/interns";
+import { toast } from "react-toastify";
+import validators from "@/lib/validators/validators";
+import { transformFormData } from "@/lib/formTransformer/formTransformer";
 
 export function AddStudentForm() {
+    const queryClient = useQueryClient();
     const form = useForm<Intern>();
     const [isExpaned, setIsExpaned] = useState(false);
 
     const requiredFields = [
-        { name: "firstName", label: "Имя" },
-        { name: "lastName", label: "Фамилия" },
-        { name: "age", label: "Возраст" },
-        { name: "email", label: "Email" },
-        { name: "phone", label: "Телефон" },
+        {
+            name: "firstName",
+            label: "Имя",
+            placeholder: "Введите имя",
+            rules: validators.firstNameValidator,
+        },
+        {
+            name: "lastName",
+            label: "Фамилия",
+            placeholder: "Введите фамилию",
+            rules: validators.lastNameValidator,
+        },
+        {
+            name: "age",
+            label: "Возраст",
+            placeholder: "Введите возраст",
+            rules: validators.ageValidator,
+        },
+        {
+            name: "email",
+            label: "Email",
+            placeholder: "example@mail.ru",
+            rules: validators.emailValidator,
+        },
+        {
+            name: "phone",
+            label: "Телефон",
+            placeholder: "+7 ХХХ ХХХ ХХ ХХ",
+            rules: validators.phoneValidator,
+        },
     ];
 
     const optionalFields = [
-        { name: "university", label: "Университет" },
-        { name: "faculty", label: "Факультет" },
-        { name: "course", label: "Курс" },
-        { name: "skills", label: "Навыки" },
-        { name: "github", label: "Github" },
-        { name: "stack", label: "Предпочитаемый стек" },
-        { name: "employment", label: "Занятость" },
-        { name: "salary", label: "Ожидаемая зарплата" },
+        {
+            name: "university",
+            label: "Университет",
+            rules: validators.universityValidator,
+        },
+        {
+            name: "faculty",
+            label: "Факультет",
+            rules: validators.facultyValidator,
+        },
+        {
+            name: "yearOfStudy",
+            label: "Курс",
+            rules: validators.yearOfStudyValidator,
+        },
+        { name: "skills", label: "Навыки", rules: validators.skillsValidator },
+        { name: "github", label: "Github", rules: validators.githubValidator },
+        {
+            name: "preferredTechStack",
+            label: "Предпочитаемый стек",
+            rules: validators.preferredTechStackValidator,
+        },
+        {
+            name: "availability",
+            label: "Занятость",
+            rules: validators.availabilityValidator,
+        },
+        {
+            name: "expectedSalary",
+            label: "Ожидаемая зарплата",
+            rules: validators.expectedSalaryValidator,
+        },
         { name: "status", label: "Статус" },
     ];
-
+    const mutation = useMutation<unknown, Error, Intern>({
+        mutationFn: postInterns,
+        onSuccess: () => {
+            toast.success("Добавлено");
+            form.reset();
+            queryClient.invalidateQueries({ queryKey: ["interns"] });
+        },
+        onError: () => {
+            toast.error("Ошибка");
+        },
+    });
+    const handleSubmit = (data: Intern) => {
+        const transformed = transformFormData<Intern>(data, {
+            age: (v) => Number(v),
+            yearOfStudy: (v) => (v ? Number(v) : undefined),
+            expectedSalary: (v) => (v ? Number(v) : undefined),
+            skills: (v) =>
+                typeof v === "string" ? v.split(",").map((s) => s.trim()) : [],
+        });
+        mutation.mutate(transformed);
+    };
     return (
         <Form {...form}>
-            <form className="space-y-4 max-w-xl mx-auto mb-10">
+            <form
+                className="space-y-4 max-w-xl mx-auto mb-10"
+                onSubmit={form.handleSubmit(handleSubmit)}
+            >
                 {requiredFields.map((field) => (
                     <FormField
                         key={field.name}
                         name={field.name}
-                        render={() => (
+                        rules={field.rules}
+                        render={({ field: controllerField }) => (
                             <FormItem>
-                                <FormLabel>{field.label}</FormLabel>
+                                <FormLabel>
+                                    {field.label}
+                                    <span className="text-red-500">*</span>
+                                </FormLabel>
                                 <FormControl>
-                                    <Input placeholder={field.label} />
+                                    <Input
+                                        placeholder={field.label}
+                                        {...controllerField}
+                                    />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -67,6 +152,7 @@ export function AddStudentForm() {
                         <FormField
                             key={field.name}
                             name={field.name}
+                            rules={field.rules}
                             render={({ field: controllerField }) => (
                                 <FormItem>
                                     <FormLabel>{field.label}</FormLabel>
@@ -116,7 +202,11 @@ export function AddStudentForm() {
                     {isExpaned ? "Скрыть" : "Добавить еще +"}
                 </button>
 
-                <Button type="submit" className="w-full bg-accent">
+                <Button
+                    type="submit"
+                    className="w-full bg-accent"
+                    disabled={mutation.isPending}
+                >
                     Добавить
                 </Button>
             </form>

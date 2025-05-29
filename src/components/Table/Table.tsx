@@ -43,7 +43,7 @@ export const DataTable = () => {
         if (entry && inView) {
             fetchNextPage();
         }
-    }, [entry]);
+    }, [entry, inView]);
 
     if (isLoading) return <div>Загрузка...</div>;
     if (error) return <div>Ошибка при загрузке данных</div>;
@@ -66,10 +66,10 @@ export const DataTable = () => {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {interns.map((intern) => (
+                    {interns.map((intern, index) => (
                         <TableRow key={intern.id}>
                             <TableCell className="font-medium">
-                                {intern.id}
+                                {index + 1}
                             </TableCell>
                             <TableCell>{intern.firstName}</TableCell>
                             <TableCell>{intern.lastName}</TableCell>
