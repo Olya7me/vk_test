@@ -1,5 +1,5 @@
-import { useForm } from "react-hook-form";
-import { useState } from "react";
+"use client";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
     Form,
@@ -17,104 +17,15 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
-import type { Intern } from "@/types/internTypes";
-import { useQueryClient, useMutation } from "@tanstack/react-query";
-import { postInterns } from "@/api/interns";
-import { toast } from "react-toastify";
-import validators from "@/lib/validators/validators";
-import {
-    internTransformers,
-    transformFormData,
-} from "@/lib/formTransformer/formTransformer";
+import { requiredFields, optionalFields } from "./fields";
+import { useAddStudentForm } from "./useAddStudentForm";
 
 export function AddStudentForm() {
-    const queryClient = useQueryClient();
-    const form = useForm<Intern>();
-    const [isExpaned, setIsExpaned] = useState(false);
+    const [isExpanded, setIsExpanded] = useState(false);
+    const { form, mutation, handleSubmit } = useAddStudentForm();
 
-    const requiredFields = [
-        {
-            name: "firstName",
-            label: "Имя",
-            placeholder: "Введите имя",
-            rules: validators.firstNameValidator,
-        },
-        {
-            name: "lastName",
-            label: "Фамилия",
-            placeholder: "Введите фамилию",
-            rules: validators.lastNameValidator,
-        },
-        {
-            name: "age",
-            label: "Возраст",
-            placeholder: "Введите возраст",
-            rules: validators.ageValidator,
-        },
-        {
-            name: "email",
-            label: "Email",
-            placeholder: "example@mail.ru",
-            rules: validators.emailValidator,
-        },
-        {
-            name: "phone",
-            label: "Телефон",
-            placeholder: "+7 9** *** ** **",
-            rules: validators.phoneValidator,
-        },
-    ];
+    useEffect(() => console.log("Form mounted"), []);
 
-    const optionalFields = [
-        {
-            name: "university",
-            label: "Университет",
-            rules: validators.universityValidator,
-        },
-        {
-            name: "faculty",
-            label: "Факультет",
-            rules: validators.facultyValidator,
-        },
-        {
-            name: "yearOfStudy",
-            label: "Курс",
-            rules: validators.yearOfStudyValidator,
-        },
-        { name: "skills", label: "Навыки", rules: validators.skillsValidator },
-        { name: "github", label: "Github", rules: validators.githubValidator },
-        {
-            name: "preferredTechStack",
-            label: "Предпочитаемый стек",
-            rules: validators.preferredTechStackValidator,
-        },
-        {
-            name: "availability",
-            label: "Занятость",
-            rules: validators.availabilityValidator,
-        },
-        {
-            name: "expectedSalary",
-            label: "Ожидаемая зарплата",
-            rules: validators.expectedSalaryValidator,
-        },
-        { name: "status", label: "Статус" },
-    ];
-    const mutation = useMutation<unknown, Error, Intern>({
-        mutationFn: postInterns,
-        onSuccess: () => {
-            toast.success("Добавлено");
-            form.reset();
-            queryClient.invalidateQueries({ queryKey: ["interns"] });
-        },
-        onError: () => {
-            toast.error("Ошибка");
-        },
-    });
-    const handleSubmit = (data: Intern) => {
-        const transformed = transformFormData<Intern>(data, internTransformers);
-        mutation.mutate(transformed);
-    };
     return (
         <Form {...form}>
             <form
@@ -144,7 +55,7 @@ export function AddStudentForm() {
                     />
                 ))}
 
-                {isExpaned &&
+                {isExpanded &&
                     optionalFields.map((field) => (
                         <FormField
                             key={field.name}
@@ -193,10 +104,10 @@ export function AddStudentForm() {
 
                 <button
                     type="button"
-                    onClick={() => setIsExpaned(!isExpaned)}
+                    onClick={() => setIsExpanded(!isExpanded)}
                     className="text-blue-600 hover:underline"
                 >
-                    {isExpaned ? "Скрыть" : "Добавить еще +"}
+                    {isExpanded ? "Скрыть" : "Добавить еще +"}
                 </button>
 
                 <Button

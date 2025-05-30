@@ -1,4 +1,4 @@
-import { createContext, useContext } from "react";
+import { createContext, useContext, useMemo } from "react";
 import type { ReactNode } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import type { InfiniteData } from "@tanstack/react-query";
@@ -40,17 +40,30 @@ export const InternsProvider = ({ children }: { children: ReactNode }) => {
         refetchOnWindowFocus: false,
     });
 
+    const interns = useMemo(() => data?.pages.flat() ?? [], [data]);
+
+    // мемоизируем value контекста, чтобы не создавать объект заново каждый рендер
+    const value = useMemo(
+        () => ({
+            interns,
+            fetchNextPage,
+            hasNextPage,
+            isFetchingNextPage,
+            isLoading,
+            error,
+        }),
+        [
+            interns,
+            fetchNextPage,
+            hasNextPage,
+            isFetchingNextPage,
+            isLoading,
+            error,
+        ]
+    );
+
     return (
-        <InternsContext.Provider
-            value={{
-                interns: data?.pages.flat() ?? [],
-                fetchNextPage,
-                hasNextPage,
-                isFetchingNextPage,
-                isLoading,
-                error,
-            }}
-        >
+        <InternsContext.Provider value={value}>
             {children}
         </InternsContext.Provider>
     );
