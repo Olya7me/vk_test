@@ -28,7 +28,7 @@ export const requiredFields = [
     {
         name: "phone",
         label: "Телефон",
-        placeholder: "+7 9** *** ** **",
+        placeholder: "+7 ___ ___ __ __",
         rules: validators.phoneValidator,
     },
 ];

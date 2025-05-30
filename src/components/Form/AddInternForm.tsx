@@ -1,5 +1,4 @@
-"use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
     Form,
@@ -19,12 +18,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { requiredFields, optionalFields } from "./fields";
 import { useAddStudentForm } from "./useAddStudentForm";
+import { inputMaskPhone } from "@/lib/masks/inputPhoneMask";
 
-export function AddStudentForm() {
+export function AddInternForm() {
     const [isExpanded, setIsExpanded] = useState(false);
     const { form, mutation, handleSubmit } = useAddStudentForm();
-
-    useEffect(() => console.log("Form mounted"), []);
 
     return (
         <Form {...form}>
@@ -44,10 +42,24 @@ export function AddStudentForm() {
                                     <span className="text-red-500">*</span>
                                 </FormLabel>
                                 <FormControl>
-                                    <Input
-                                        placeholder={field.placeholder}
-                                        {...controllerField}
-                                    />
+                                    {field.name === "phone" ? (
+                                        <Input
+                                            placeholder={field.placeholder}
+                                            value={controllerField.value}
+                                            onChange={(e) =>
+                                                controllerField.onChange(
+                                                    inputMaskPhone(
+                                                        e.target.value
+                                                    )
+                                                )
+                                            }
+                                        />
+                                    ) : (
+                                        <Input
+                                            placeholder={field.placeholder}
+                                            {...controllerField}
+                                        />
+                                    )}
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>

@@ -1,16 +1,17 @@
 import { Header } from "@/components/Header/Header";
 import { DataTable } from "@/components/Table/DataTable";
-import { AddStudentForm } from "@/components/Form/Form";
-import { InternsProvider } from "@/context/internContext";
+import { AddInternForm } from "@/components/Form/AddInternForm";
+import { ErrorScreen } from "@/components/ErrorScreen/ErrorScreen";
 
 export const MainPage = () => {
     return (
-        <InternsProvider>
+        <>
             <Header />
             <main className="container mx-auto px-4">
-                <AddStudentForm />
+                <ErrorScreen />
+                <AddInternForm />
                 <DataTable />
             </main>
-        </InternsProvider>
+        </>
     );
 };

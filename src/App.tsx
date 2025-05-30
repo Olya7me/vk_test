@@ -1,20 +1,22 @@
 import { MainPage } from "./pages/MainPage";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { NotFound } from "@/pages/NotFound";
+import { InternsProvider } from "@/context/internContext";
 
-const queryClient = new QueryClient({
-    defaultOptions: {
-        queries: {
-            staleTime: 5 * 60_000,
-            refetchOnWindowFocus: false,
-        },
-    },
-});
+const queryClient = new QueryClient();
 
 function App() {
-    console.log("App rerendered");
     return (
         <QueryClientProvider client={queryClient}>
-            <MainPage />
+            <InternsProvider>
+                <BrowserRouter>
+                    <Routes>
+                        <Route path="/" element={<MainPage />} />
+                        <Route path="*" element={<NotFound />} />
+                    </Routes>
+                </BrowserRouter>
+            </InternsProvider>
         </QueryClientProvider>
     );
 }

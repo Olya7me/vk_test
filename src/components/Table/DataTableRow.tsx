@@ -18,9 +18,15 @@ export const DataTableRow = ({
         <TableCell>{intern.university ?? "..."}</TableCell>
         <TableCell>{intern.faculty ?? "..."}</TableCell>
         <TableCell>{intern.yearOfStudy ?? "..."}</TableCell>
-        <TableCell>{intern.skills?.join(", ") ?? "..."}</TableCell>
+        <TableCell>
+            {intern.skills?.length ? intern.skills.join(", ") : "..."}
+        </TableCell>
         <TableCell>{intern.github ?? "..."}</TableCell>
-        <TableCell>{intern.preferredTechStack?.join(", ") ?? "..."}</TableCell>
+        <TableCell>
+            {intern.preferredTechStack?.length
+                ? intern.preferredTechStack.join(", ")
+                : "..."}
+        </TableCell>
         <TableCell>{intern.availability ?? "..."}</TableCell>
         <TableCell>{intern.expectedSalary ?? "..."}</TableCell>
         <TableCell>{intern.status ?? "..."}</TableCell>

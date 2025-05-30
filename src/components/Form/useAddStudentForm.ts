@@ -15,15 +15,15 @@ export function useAddStudentForm() {
             age: "",
             email: "",
             phone: "",
-            university: "",
-            faculty: "",
+            university: undefined,
+            faculty: undefined,
             yearOfStudy: undefined,
-            skills: undefined,
-            github: "",
-            preferredTechStack: undefined,
-            availability: "",
+            skills: [],
+            github: undefined,
+            preferredTechStack: [],
+            availability: undefined,
             expectedSalary: undefined,
-            status: "",
+            status: undefined,
         },
     });
 
@@ -40,7 +40,6 @@ export function useAddStudentForm() {
     });
 
     const handleSubmit = (data: Intern) => {
-        console.log("HANDLE SUBMIT!", data);
         const transformed = transformFormData<Intern>(data, internTransformer);
         mutation.mutate(transformed);
     };

@@ -1,14 +1,19 @@
-import { createContext, useContext, useMemo } from "react";
+import { createContext, useContext } from "react";
 import type { ReactNode } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import type { InfiniteData } from "@tanstack/react-query";
 import type { Intern } from "@/types/internTypes";
 import { fetchInterns } from "@/api/interns";
+import { ErrorScreen } from "@/components/ErrorScreen/ErrorScreen";
+
+type FetchError = {
+    status: number;
+    message: string;
+};
 
 type InternsContextType = {
-    interns: Intern[] | undefined;
+    interns: Intern[];
     isLoading: boolean;
-    error: unknown;
     fetchNextPage: () => void;
     hasNextPage: boolean | undefined;
     isFetchingNextPage: boolean;
@@ -26,7 +31,7 @@ export const InternsProvider = ({ children }: { children: ReactNode }) => {
         hasNextPage,
     } = useInfiniteQuery<
         Intern[],
-        unknown,
+        FetchError,
         InfiniteData<Intern[]>,
         ["interns"],
         number
@@ -34,36 +39,27 @@ export const InternsProvider = ({ children }: { children: ReactNode }) => {
         queryKey: ["interns"],
         queryFn: ({ pageParam = 0 }) => fetchInterns(pageParam),
         initialPageParam: 0,
-        getNextPageParam: (lastPage, pages) => {
-            return lastPage.length === 0 ? undefined : pages.length;
-        },
+        getNextPageParam: (lastPage, pages) =>
+            lastPage.length === 0 ? undefined : pages.length,
         refetchOnWindowFocus: false,
     });
 
-    const interns = useMemo(() => data?.pages.flat() ?? [], [data]);
+    if (error) {
+        return <ErrorScreen status={error.status} message={error.message} />;
+    }
 
-    // мемоизируем value контекста, чтобы не создавать объект заново каждый рендер
-    const value = useMemo(
-        () => ({
-            interns,
-            fetchNextPage,
-            hasNextPage,
-            isFetchingNextPage,
-            isLoading,
-            error,
-        }),
-        [
-            interns,
-            fetchNextPage,
-            hasNextPage,
-            isFetchingNextPage,
-            isLoading,
-            error,
-        ]
-    );
+    const interns = data?.pages.flat() ?? [];
 
     return (
-        <InternsContext.Provider value={value}>
+        <InternsContext.Provider
+            value={{
+                interns,
+                fetchNextPage,
+                hasNextPage,
+                isFetchingNextPage,
+                isLoading,
+            }}
+        >
             {children}
         </InternsContext.Provider>
     );
