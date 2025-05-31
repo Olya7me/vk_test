@@ -1,4 +1,5 @@
 import { useState } from "react";
+import type { FC } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -21,7 +22,7 @@ import { requiredFields, optionalFields } from "./fields";
 import { useAddStudentForm } from "./useAddStudentForm";
 import { inputMaskPhone } from "@/lib/masks/inputPhoneMask";
 
-export function AddInternForm() {
+export const AddInternForm: FC = () => {
     const [isExpanded, setIsExpanded] = useState(false);
     const { form, mutation, handleSubmit } = useAddStudentForm();
 
@@ -133,4 +134,4 @@ export function AddInternForm() {
             </form>
         </Form>
     );
-}
+};

@@ -1,13 +1,13 @@
+import type { FC } from "react";
 import { TableRow, TableCell } from "@/components/ui/table";
 import type { Intern } from "@/types/internTypes";
 
-export const DataTableRow = ({
-    intern,
-    index,
-}: {
+type Props = {
     intern: Intern;
     index: number;
-}) => (
+};
+
+export const DataTableRow: FC<Props> = ({ intern, index }) => (
     <TableRow key={intern.id}>
         <TableCell className="font-medium">{index + 1}</TableCell>
         <TableCell>{intern.firstName}</TableCell>

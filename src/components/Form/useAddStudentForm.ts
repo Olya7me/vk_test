@@ -6,7 +6,7 @@ import { internTransformer } from "./AddInternTransformer";
 import type { Intern } from "@/types/internTypes";
 import { toast } from "react-toastify";
 
-export function useAddStudentForm() {
+export const useAddStudentForm = () => {
     const queryClient = useQueryClient();
     const form = useForm<Intern>({
         defaultValues: {
@@ -49,4 +49,4 @@ export function useAddStudentForm() {
         mutation,
         handleSubmit,
     };
-}
+};

@@ -1,4 +1,5 @@
-export const Header = () => {
+import type { FC } from "react";
+export const Header: FC = () => {
     return (
         <header className="text-primary-foreground bg-gradient-to-r from-blue-600 to-blue-400 shadow-lg sticky top-0 z-50 mb-10">
             <div className="container mx-auto flex items-center justify-between py-4 px-4">

@@ -1,14 +1,17 @@
+import type { FC } from "react";
 import { TableRow, TableCell } from "@/components/ui/table";
 import { Skeleton } from "@/components/ui/skeleton";
 
-export const DataTableLoaderRow = ({
-    isFetching,
-    hasNextPage,
-    ref,
-}: {
+type Props = {
     isFetching: boolean;
     hasNextPage: boolean;
     ref: (node?: Element | null) => void;
+};
+
+export const DataTableLoaderRow: FC<Props> = ({
+    isFetching,
+    hasNextPage,
+    ref,
 }) => {
     if (!hasNextPage && !isFetching) return null;
 

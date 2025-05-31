@@ -1,4 +1,5 @@
 import React from "react";
+import type { FC } from "react";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
 const icons = [
@@ -8,7 +9,7 @@ const icons = [
     { id: 4, icon: "telegram", path: "https://t.me/olya7me" },
 ];
 
-export const Socials = () => {
+export const Socials: FC = () => {
     return (
         <ul className="flex justify-center gap-5">
             {icons.map(({ id, icon, path }) => (

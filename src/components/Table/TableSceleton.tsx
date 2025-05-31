@@ -1,6 +1,7 @@
+import type { FC } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 
-export const TableSkeleton = () => {
+export const TableSkeleton: FC = () => {
     const renderSkeletons = (count: number, widths: string[]) => {
         return Array.from({ length: count }).map((_, i) => (
             <Skeleton

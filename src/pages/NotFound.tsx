@@ -1,8 +1,13 @@
-export function NotFound() {
+import type { FC } from "react";
+
+export const NotFound: FC = () => {
     return (
-        <div style={{ textAlign: "center", marginTop: 100 }}>
-            <h1>404 — Страница не найдена</h1>
-            <p>Ну, кажется, ты забрел не туда...</p>
+        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 p-6">
+            <h1 className="text-9xl font-extrabold text-red-600 mb-4">404</h1>
+            <h2 className="text-2xl font-semibold mb-2">Страница не найдена</h2>
+            <p className="text-gray-600">
+                Ну, кажется, кто-то забрел не туда...
+            </p>
         </div>
     );
-}
+};

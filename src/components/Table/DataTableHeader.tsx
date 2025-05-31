@@ -1,6 +1,11 @@
+import type { FC } from "react";
 import { TableHeader, TableRow, TableHead } from "@/components/ui/table";
 
-export const DataTableHeader = ({ headers }: { headers: string[] }) => (
+type DataTableHeaderProps = {
+    headers: string[];
+};
+
+export const DataTableHeader: FC<DataTableHeaderProps> = ({ headers }) => (
     <TableHeader>
         <TableRow>
             {headers.map((header, index) => (

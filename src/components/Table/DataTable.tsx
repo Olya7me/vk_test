@@ -1,5 +1,6 @@
 import { useInView } from "react-intersection-observer";
 import { useEffect } from "react";
+import type { FC } from "react";
 import { useInternsContext } from "@/context/internContext";
 
 import { DataTableHeader } from "./DataTableHeader";
@@ -28,7 +29,7 @@ const headers = [
     "Статус",
 ];
 
-export const DataTable = () => {
+export const DataTable: FC = () => {
     const {
         interns,
         fetchNextPage,
