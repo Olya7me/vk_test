@@ -1,54 +1,74 @@
-# React + TypeScript + Vite
+# Test for VK
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Веб-приложение для отображения и добавления данных. Реализовано с использованием современного стека: **React + TypeScript + Vite**, с акцентом на масштабируемость, удобство разработки и соответствие требованиям стажировки.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 📋 Описание задания
 
-## Expanding the ESLint configuration
+Необходимо реализовать SPA-приложение с использованием React и TypeScript. Приложение должно включать:
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+1. **Таблицу** с данными (5–15 произвольных полей), с подгрузкой данных с сервера через **infinite scroll**.
+2. **Форму создания новой записи** (минимум 5 полей), с полной валидацией и отправкой данных на сервер.
+3. **Управление состоянием** через выбранный стейт-менеджер (или обоснование его отсутствия).
+4. Использование **json-server** для работы с API (репозиторий: [typicode/json-server](https://github.com/typicode/json-server)).
+5. Новая запись должна автоматически появляться в таблице после успешной отправки.
+6. Код должен быть опубликован на GitHub.
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+---
+
+## ✅ Соответствие требованиям
+
+| Требование                                         | Реализация                                                                 |
+|----------------------------------------------------|----------------------------------------------------------------------------|
+| Таблица с данными (5–15 полей)                     | Присутствует.                                    |
+| Подгрузка данных (infinite loader)                 | Реализовано через `react-query` с использованием `useInfiniteQuery`.       |
+| Стейт-менеджер / обоснование отсутствия            | Используются `React Context` и `react-query`. Дополнительный менеджер не требуется из-за небольших данных. |
+| Форма добавления записи (минимум 5 полей)          | Присутствует. Реализована с полной валидацией через `react-hook-form`.     |
+| Отправка формы через API                           | Выполняется `POST`-запросом на `json-server`.                              |
+| Добавление записи в таблицу после отправки         | Запись добавляется в кэш и отображается в таблице.                         |
+| Управление состоянием формы                        | Кнопка отправки `disabled` во время запроса.                               |
+| Размещение на GitHub                               | ✅ [Ссылка на репозиторий](https://github.com/Olya7me/vk_test)             |
+
+---
+
+## ⚙️ Технологии
+
+| Технология         | Назначение                            |
+|--------------------|----------------------------------------|
+| **Vite**           | Быстрая сборка и разработка            |
+| **React + TypeScript** | Основной фреймворк и типизация     |
+| **Tailwind CSS**   | Утилитарная стилизация компонентов     |
+| **shadcn/ui**      | Набор UI-компонентов                  |
+| **react-hook-form**| Работа с формами и валидацией         |
+| **react-query**    | Работа с API, кэширование, мутации     |
+| **React Context**  | Управление локальным состоянием        |
+| **json-server**    | Мок-сервер для работы с API            |
+| **react-toastify** | Отображение уведомлений                |
+
+---
+
+## 🚀 Запуск проекта
+
+### Клонирование и установка зависимостей
+
+```bash
+git clone https://github.com/Olya7me/vk_test.git
+cd interns-table-app
+npm install
+```
+### Запуск мокового сервера
+
+```bash
+json-server --watch db.json --port 4000
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+### Запуск проекта
+```bash
+npm run dev
 ```
+___
+
+## Контакты
+Telegram: @Olya7me
+GitHub: https://github.com/Olya7me
