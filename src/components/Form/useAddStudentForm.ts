@@ -4,7 +4,7 @@ import { postInterns } from "@/api/interns";
 import { transformFormData } from "@/lib/formTransformer/index";
 import { internTransformer } from "./AddInternTransformer";
 import type { Intern } from "@/types/internTypes";
-import { toast } from "sonner";
+import { toast } from "react-toastify";
 
 export function useAddStudentForm() {
     const queryClient = useQueryClient();
@@ -32,10 +32,10 @@ export function useAddStudentForm() {
         onSuccess: () => {
             form.reset();
             queryClient.invalidateQueries({ queryKey: ["interns"] });
-            toast("Данные успешно добавлены!");
+            toast.success("Данные успешно добавлены!");
         },
         onError: () => {
-            toast.error("Произошла ошибка. Попробуйте позже");
+            toast.error("Произошла ошибка, попробуйте позже.");
         },
     });
 

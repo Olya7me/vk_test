@@ -4,16 +4,12 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import type { InfiniteData } from "@tanstack/react-query";
 import type { Intern } from "@/types/internTypes";
 import { fetchInterns } from "@/api/interns";
-import { ErrorScreen } from "@/components/ErrorScreen/ErrorScreen";
 
-type FetchError = {
-    status: number;
-    message: string;
-};
-
-type InternsContextType = {
-    interns: Intern[];
+export type InternsContextType = {
+    interns: Intern[] | undefined;
     isLoading: boolean;
+    isError: boolean;
+    error: unknown;
     fetchNextPage: () => void;
     hasNextPage: boolean | undefined;
     isFetchingNextPage: boolean;
@@ -29,9 +25,10 @@ export const InternsProvider = ({ children }: { children: ReactNode }) => {
         isFetchingNextPage,
         error,
         hasNextPage,
+        isError,
     } = useInfiniteQuery<
         Intern[],
-        FetchError,
+        Error,
         InfiniteData<Intern[]>,
         ["interns"],
         number
@@ -44,20 +41,18 @@ export const InternsProvider = ({ children }: { children: ReactNode }) => {
         refetchOnWindowFocus: false,
     });
 
-    if (error) {
-        return <ErrorScreen status={error.status} message={error.message} />;
-    }
-
-    const interns = data?.pages.flat() ?? [];
+    const interns = data?.pages.flat();
 
     return (
         <InternsContext.Provider
             value={{
                 interns,
+                isLoading,
+                isError,
+                error,
                 fetchNextPage,
                 hasNextPage,
                 isFetchingNextPage,
-                isLoading,
             }}
         >
             {children}
@@ -66,11 +61,10 @@ export const InternsProvider = ({ children }: { children: ReactNode }) => {
 };
 
 export const useInternsContext = () => {
-    const context = useContext(InternsContext);
-    if (!context) {
+    const ctx = useContext(InternsContext);
+    if (!ctx)
         throw new Error(
             "useInternsContext должен использоваться внутри InternsProvider"
         );
-    }
-    return context;
+    return ctx;
 };

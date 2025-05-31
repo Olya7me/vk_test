@@ -5,6 +5,9 @@ import { useInternsContext } from "@/context/internContext";
 import { DataTableHeader } from "./DataTableHeader";
 import { DataTableRow } from "./DataTableRow";
 import { DataTableLoaderRow } from "./DataTableLoaderRow";
+import { ErrorComponent } from "../ErrorComponent/ErrorComponent";
+import { EmptyComponent } from "@/components/EmptyComponent/EmptyComponent";
+import { TableSkeleton } from "@/components/Table/TableSceleton";
 
 const headers = [
     "№",
@@ -30,8 +33,9 @@ export const DataTable = () => {
         fetchNextPage,
         isFetchingNextPage,
         isLoading,
-        hasNextPage,
+        isError,
         error,
+        hasNextPage,
     } = useInternsContext();
 
     const { ref, inView, entry } = useInView();
@@ -43,14 +47,15 @@ export const DataTable = () => {
     }, [entry, inView, hasNextPage, isFetchingNextPage]);
 
     if (isLoading && (!interns || interns.length === 0)) {
-        return <div>Загрузка...</div>;
+        return <TableSkeleton />;
     }
-    if (error) return <div>Ошибка при загрузке данных</div>;
-    if (!interns || interns.length === 0)
-        return <div>Стажёров пока нет 😢</div>;
+    if (isError && error instanceof Error) {
+        return <ErrorComponent message={error.message} />;
+    }
+    if (!interns || interns.length === 0) return <EmptyComponent />;
 
     return (
-        <Table className="text-md">
+        <Table className="text-md mb-20">
             <DataTableHeader headers={headers} />
             <TableBody>
                 {interns.map((intern, index) => (

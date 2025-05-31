@@ -710,69 +710,37 @@
       "phone": "+7 909 321 54 76"
     },
     {
-      "id": "815d",
+      "id": "b728",
       "firstName": "Ольга",
       "lastName": "Гуменюк",
       "age": 27,
       "email": "gumenyucko@yandex.ru",
       "phone": "+7 996 324 77 12",
-      "university": "",
-      "faculty": "",
       "skills": [],
-      "github": "",
-      "preferredTechStack": [],
-      "availability": "",
-      "status": ""
+      "preferredTechStack": []
     },
     {
-      "id": "106b",
-      "firstName": "Ольга",
-      "lastName": "Гуменюк",
-      "age": 27,
-      "email": "gumenyucko@yandex.ru",
-      "phone": "+7 996 324 77 12"
-    },
-    {
-      "id": "0917",
-      "firstName": "Ольга",
-      "lastName": "Гуменюк",
-      "age": 27,
-      "email": "gumenyucko@yandex.ru",
-      "phone": "+7 996 324 77 12"
-    },
-    {
-      "id": "eed5",
-      "firstName": "Ольга",
-      "lastName": "Гуменюк",
-      "age": 27,
-      "email": "gumenyucko@yandex.ru",
-      "phone": "+7 996 324 77 12"
-    },
-    {
-      "id": "b2d8",
+      "id": "f918",
       "firstName": "Ольга",
       "lastName": "Гуменюк",
       "age": 27,
       "email": "gumenyucko@yandex.ru",
       "phone": "+7 996 324 77 12",
-      "university": "",
-      "faculty": "",
       "skills": [],
-      "github": "",
-      "preferredTechStack": [],
-      "availability": "",
-      "status": ""
+      "preferredTechStack": []
     },
     {
-      "id": "69e2",
+      "id": "71e8",
       "firstName": "Ольга",
       "lastName": "Гуменюк",
       "age": 27,
       "email": "gumenyucko@yandex.ru",
-      "phone": "+7 996 324 77 12"
+      "phone": "+7 996 324 77 12",
+      "skills": [],
+      "preferredTechStack": []
     },
     {
-      "id": "16e2",
+      "id": "bdbe",
       "firstName": "Ольга",
       "lastName": "Гуменюк",
       "age": 27,
