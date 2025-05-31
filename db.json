@@ -708,46 +708,6 @@
       "status": "активен",
       "availability": "полный рабочий день",
       "phone": "+7 909 321 54 76"
-    },
-    {
-      "id": "b728",
-      "firstName": "Ольга",
-      "lastName": "Гуменюк",
-      "age": 27,
-      "email": "gumenyucko@yandex.ru",
-      "phone": "+7 996 324 77 12",
-      "skills": [],
-      "preferredTechStack": []
-    },
-    {
-      "id": "f918",
-      "firstName": "Ольга",
-      "lastName": "Гуменюк",
-      "age": 27,
-      "email": "gumenyucko@yandex.ru",
-      "phone": "+7 996 324 77 12",
-      "skills": [],
-      "preferredTechStack": []
-    },
-    {
-      "id": "71e8",
-      "firstName": "Ольга",
-      "lastName": "Гуменюк",
-      "age": 27,
-      "email": "gumenyucko@yandex.ru",
-      "phone": "+7 996 324 77 12",
-      "skills": [],
-      "preferredTechStack": []
-    },
-    {
-      "id": "bdbe",
-      "firstName": "Ольга",
-      "lastName": "Гуменюк",
-      "age": 27,
-      "email": "gumenyucko@yandex.ru",
-      "phone": "+7 996 324 77 12",
-      "skills": [],
-      "preferredTechStack": []
     }
   ]
 }

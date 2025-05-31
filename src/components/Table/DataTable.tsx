@@ -1,11 +1,12 @@
 import { useInView } from "react-intersection-observer";
 import { useEffect } from "react";
-import { Table, TableBody } from "@/components/ui/table";
 import { useInternsContext } from "@/context/internContext";
+
 import { DataTableHeader } from "./DataTableHeader";
 import { DataTableRow } from "./DataTableRow";
 import { DataTableLoaderRow } from "./DataTableLoaderRow";
 import { ErrorComponent } from "../ErrorComponent/ErrorComponent";
+import { Table, TableBody } from "@/components/ui/table";
 import { EmptyComponent } from "@/components/EmptyComponent/EmptyComponent";
 import { TableSkeleton } from "@/components/Table/TableSceleton";
 

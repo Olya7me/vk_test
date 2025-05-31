@@ -1,4 +1,5 @@
 import { useState } from "react";
+
 import { Button } from "@/components/ui/button";
 import {
     Form,
@@ -125,9 +126,9 @@ export function AddInternForm() {
                 <Button
                     type="submit"
                     className="w-full bg-accent"
-                    disabled={mutation.isPending}
+                    disabled={mutation.status === "pending"}
                 >
-                    Добавить
+                    {mutation.status === "pending" ? "Отправка..." : "Добавить"}
                 </Button>
             </form>
         </Form>

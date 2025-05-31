@@ -1,6 +1,6 @@
 import { Header } from "@/components/Header/Header";
-import { DataTable } from "@/components/Table/DataTable";
 import { AddInternForm } from "@/components/Form/AddInternForm";
+import { DataTable } from "@/components/Table/DataTable";
 import { Footer } from "@/components/Footer/Footer";
 
 export const MainPage = () => {
