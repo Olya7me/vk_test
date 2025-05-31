@@ -5,30 +5,33 @@ import type { Intern } from "@/types/internTypes";
 type Props = {
     intern: Intern;
     index: number;
+    keys: (keyof Intern | "№")[];
 };
 
-export const DataTableRow: FC<Props> = ({ intern, index }) => (
+export const DataTableRow: FC<Props> = ({ intern, index, keys }) => (
     <TableRow key={intern.id}>
         <TableCell className="font-medium">{index + 1}</TableCell>
-        <TableCell>{intern.firstName}</TableCell>
-        <TableCell>{intern.lastName}</TableCell>
-        <TableCell>{intern.age}</TableCell>
-        <TableCell>{intern.email}</TableCell>
-        <TableCell>{intern.phone}</TableCell>
-        <TableCell>{intern.university ?? "..."}</TableCell>
-        <TableCell>{intern.faculty ?? "..."}</TableCell>
-        <TableCell>{intern.yearOfStudy ?? "..."}</TableCell>
-        <TableCell>
-            {intern.skills?.length ? intern.skills.join(", ") : "..."}
-        </TableCell>
-        <TableCell>{intern.github ?? "..."}</TableCell>
-        <TableCell>
-            {intern.preferredTechStack?.length
-                ? intern.preferredTechStack.join(", ")
-                : "..."}
-        </TableCell>
-        <TableCell>{intern.availability ?? "..."}</TableCell>
-        <TableCell>{intern.expectedSalary ?? "..."}</TableCell>
-        <TableCell>{intern.status ?? "..."}</TableCell>
+
+        {keys
+            .filter((key) => key !== "№")
+            .map((key) => {
+                const value = intern[key as keyof Intern];
+
+                if (Array.isArray(value)) {
+                    return (
+                        <TableCell key={String(key)}>
+                            {value.length ? value.join(", ") : "..."}
+                        </TableCell>
+                    );
+                }
+
+                return (
+                    <TableCell key={String(key)}>
+                        {value !== undefined && value !== null && value !== ""
+                            ? String(value)
+                            : "..."}
+                    </TableCell>
+                );
+            })}
     </TableRow>
 );

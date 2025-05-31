@@ -1,13 +1,21 @@
 import { useForm } from "react-hook-form";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+    useMutation,
+    useQueryClient,
+    type InfiniteData,
+} from "@tanstack/react-query";
+
 import { postInterns } from "@/api/interns";
 import { transformFormData } from "@/lib/formTransformer/index";
 import { internTransformer } from "./AddInternTransformer";
 import type { Intern } from "@/types/internTypes";
 import { toast } from "react-toastify";
+import { useInternsContext } from "@/context/internContext";
 
 export const useAddStudentForm = () => {
     const queryClient = useQueryClient();
+    const { updateKeys } = useInternsContext();
+
     const form = useForm<Intern>({
         defaultValues: {
             firstName: "",
@@ -27,11 +35,32 @@ export const useAddStudentForm = () => {
         },
     });
 
-    const mutation = useMutation<unknown, Error, Intern>({
+    const mutation = useMutation<Intern, Error, Intern>({
         mutationFn: postInterns,
-        onSuccess: () => {
+        onSuccess: (newIntern) => {
+            updateKeys(newIntern);
+            queryClient.setQueryData<InfiniteData<Intern[]>>(
+                ["interns"],
+                (oldData) => {
+                    if (!oldData) {
+                        return { pages: [[newIntern]], pageParams: [] };
+                    }
+                    const lastIdx = oldData.pages.length - 1;
+                    const updatedLastPage = [
+                        newIntern,
+                        ...oldData.pages[lastIdx],
+                    ];
+                    return {
+                        pages: [
+                            ...oldData.pages.slice(0, lastIdx),
+                            updatedLastPage,
+                        ],
+                        pageParams: oldData.pageParams,
+                    };
+                }
+            );
+
             form.reset();
-            queryClient.invalidateQueries({ queryKey: ["interns"] });
             toast.success("Данные успешно добавлены!");
         },
         onError: () => {

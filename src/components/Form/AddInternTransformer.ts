@@ -11,7 +11,6 @@ export const internTransformer: FieldTransformers<Intern> = {
     status: (v) => (typeof v === "string" ? v.trim().toLowerCase() : undefined),
     firstName: (v) => (typeof v === "string" ? capitalize(v) : ""),
     lastName: (v) => (typeof v === "string" ? capitalize(v) : ""),
-    university: (v) => (typeof v === "string" ? capitalize(v) : undefined),
     faculty: (v) => (typeof v === "string" ? capitalize(v) : undefined),
     availability: (v) => (typeof v === "string" ? v : undefined),
 };
